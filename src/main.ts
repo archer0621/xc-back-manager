@@ -1,5 +1,8 @@
 import { createApp } from 'vue'
-import './style.css'
 import App from './App.vue'
+import install from '@/base/install'
+import '@ant-design/icons-vue'
 
-createApp(App).mount('#app')
+
+
+createApp(App).use(install).mount('#app')
