@@ -1,0 +1,29 @@
+{
+  "compilerOptions": {
+      "target": "esnext",
+      "module": "esnext",
+      "moduleResolution": "node",
+      "skipLibCheck": true,
+      "strict": true,
+      "jsx": "preserve",
+      "sourceMap": true,
+      "resolveJsonModule": true,
+      "baseUrl": "./",
+      "paths": {
+        "@/*": ["src/*"]
+      },
+      "types": [
+          "webpack-env",
+          "node"
+      ],
+      "typeRoots": [
+          "./typings"
+      ],
+      "noImplicitAny": false,
+      "noImplicitThis": false,
+      "allowSyntheticDefaultImports": true
+  },
+  "exclude": [
+      "node_modules",
+  ]
+}

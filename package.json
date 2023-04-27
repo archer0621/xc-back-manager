@@ -1,0 +1,34 @@
+{
+  "name": "xc-back-manager",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vue-tsc && vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@ant-design/icons-vue": "^6.1.0",
+    "@types/lodash": "^4.14.194",
+    "ant-design-vue": "^3.2.19",
+    "axios": "^1.3.6",
+    "echarts": "^5.4.2",
+    "pinia": "^2.0.35",
+    "vitepress": "^1.0.0-alpha.74",
+    "vue": "^3.2.47",
+    "vue-router": "^4.1.6"
+  },
+  "devDependencies": {
+    "@types/node": "^18.16.1",
+    "@types/vue": "^2.0.0",
+    "@types/webpack-env": "^1.18.0",
+    "@vitejs/plugin-vue": "^4.1.0",
+    "less": "^4.1.3",
+    "typescript": "^5.0.2",
+    "unplugin-auto-import": "^0.15.3",
+    "unplugin-vue-components": "^0.24.1",
+    "vite": "^4.3.2",
+    "vue-tsc": "^1.4.2"
+  }
+}
