@@ -1,29 +1,27 @@
-import { createRouter, createWebHashHistory, RouterOptions } from 'vue-router'
-import type { App } from 'vue'
-const routes = [
-  {
-    path: '/',
-    name: 'manager',
-    component: () => import('@/layout/index.vue'),
-    children: [],
-  },
+import { createRouter, createWebHistory, Router, RouteRecordRaw } from 'vue-router'
+
+// 静态路由表
+export const routes: Array<RouteRecordRaw> = [
   {
     path: '/login',
-    name: 'login',
-    meta: { title: '登录页' },
     component: () => import('@/views/login/index.vue'),
-  },
+    meta: { hidden: true }
+  }
 ]
 
-const router = createRouter({
-  history: createWebHashHistory('/web.html'),
-  routes,
-} as RouterOptions)
+export const dynamicRoutes: Array<RouteRecordRaw> = [
+  
+]
 
-const setUpRouter = (app: App) => {
-  app.use(router)
+
+// 重置路由
+export const resetRouter = (): void => {
+  
 }
 
-export {
-  setUpRouter
-}
+const router: Router = createRouter({
+  history: createWebHistory(),
+  routes
+})
+
+export default router

@@ -1,29 +1,22 @@
 {
   "compilerOptions": {
-      "target": "esnext",
-      "module": "esnext",
-      "moduleResolution": "node",
-      "skipLibCheck": true,
-      "strict": true,
-      "jsx": "preserve",
-      "sourceMap": true,
-      "resolveJsonModule": true,
-      "baseUrl": "./",
-      "paths": {
-        "@/*": ["src/*"]
-      },
-      "types": [
-          "webpack-env",
-          "node"
-      ],
-      "typeRoots": [
-          "./typings"
-      ],
-      "noImplicitAny": false,
-      "noImplicitThis": false,
-      "allowSyntheticDefaultImports": true
+    "target": "es2020",
+    "module": "es2020",
+    "moduleResolution": "node",
+    "skipLibCheck": true,
+    "strict": true,
+    "jsx": "preserve",
+    "sourceMap": true,
+    "resolveJsonModule": true,
+    "baseUrl": "./",
+    "paths": {
+      "@/*": ["src/*"]
+    },
+    "types": ["webpack-env", "node", "vite/client"],
+    "typeRoots": ["./typings"],
+    "noImplicitAny": false,
+    "noImplicitThis": false,
+    "allowSyntheticDefaultImports": true
   },
-  "exclude": [
-      "node_modules",
-  ]
+  "exclude": ["node_modules"]
 }

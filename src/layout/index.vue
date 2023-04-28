@@ -1,7 +1,7 @@
 <template>
   <a-layout style="min-height: 100vh">
     <a-layout-sider v-model:collapsed="collapsed" collapsible>
-      <div class="manager-logo"></div>
+      <div class="manager-logo" @click="logout">123</div>
       <a-menu v-model:selectedKeys="selectedKeys" theme="dark" mode="inline">
         <a-menu-item key="1">
           <pie-chart-outlined />
@@ -51,24 +51,17 @@
     </a-layout>
   </a-layout>
 </template>
-<script lang="ts">
-import { PieChartOutlined, DesktopOutlined, UserOutlined, TeamOutlined, FileOutlined } from '@ant-design/icons-vue'
-import { defineComponent, ref } from 'vue'
-export default defineComponent({
-  components: {
-    PieChartOutlined,
-    DesktopOutlined,
-    UserOutlined,
-    TeamOutlined,
-    FileOutlined,
-  },
-  data() {
-    return {
-      collapsed: ref<boolean>(false),
-      selectedKeys: ref<string[]>(['1']),
-    }
-  },
-})
+<script lang="ts" setup>
+import { useUserStore } from '@/pinia/modules/user'
+import router from '@/router'
+const userStore = useUserStore()
+const logout = () => {
+  userStore.logout().then(() => {
+    location.href = '/login'
+  }).catch(e => {
+    console.log(e);
+  })
+}
 </script>
 <style scoped lang="less">
 .manager-logo {

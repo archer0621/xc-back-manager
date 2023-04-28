@@ -32,13 +32,17 @@
 import { UserOutlined, LockOutlined } from '@ant-design/icons-vue'
 import { ref, reactive, onMounted, defineComponent, UnwrapRef } from 'vue'
 import { getCheckCode, userLogin } from '@/service/index'
-import { querystringify, setCookie } from '@/utils/index'
+import { querystringify, setCookie } from '@/common/index'
 import { message } from 'ant-design-vue'
-import { useRouter } from 'vue-router'
-interface CheckCode {
-  key: string
-  aliasing: string
-}
+import router from '@/router'
+import { useUserStore } from '@/pinia/modules/user'
+import { error, log } from 'console'
+import { usePermissionStoreHook } from '@/pinia/modules/permission'
+import { NavigationGuardNext, RouteLocationNormalized, RouteRecordRaw } from 'vue-router'
+
+
+const permissionStore = usePermissionStoreHook()
+const userStore = useUserStore()
 
 interface FormData {
   username: string
@@ -61,9 +65,8 @@ export default defineComponent({
     LockOutlined,
   },
   setup() {
-    const router = useRouter()
     const formData: UnwrapRef<FormData> = reactive({
-      username: 't1',
+      username: 'super',
       password: '111111',
       checkcode: '',
       authType: 'password',
@@ -77,30 +80,31 @@ export default defineComponent({
     })
 
     const img = ref<string>('')
-    const checkCode = reactive({
-      data: {} as CheckCode,
-    })
     onMounted(async () => {
       updateCode()
     })
 
     // 点击刷新验证码
     async function updateCode() {
-      const data = await getCheckCode()
-      checkCode.data = data.data as CheckCode
+      const {data} = await getCheckCode()
       formData.checkcodekey = data.data.key
-      img.value = data.data?.aliasing
+      img.value = data.data.aliasing
     }
     async function loginSubmit() {
       let formDataJson = JSON.stringify(formData)
       usernamejson.username = formDataJson
       let params = querystringify(usernamejson)
-      console.log(params)
-      const res = await userLogin(params)
-      if (res.data && res.data.access_token) {
-        setCookie('jwt', res.data.access_token, 30)
+      if (params) {
+        await userStore.login(params)
         message.success('登录成功')
-        router.push('/home')
+        const accessRoutes: RouteRecordRaw[] = await permissionStore.getRoutes()
+        accessRoutes.forEach((route: RouteRecordRaw) => router.addRoute(route))
+        setTimeout(() => {
+          router.push('/userStudent')
+        }, 1000)
+        
+      } else {
+        message.error('未知错误')
       }
     }
     return {
@@ -119,8 +123,8 @@ export default defineComponent({
   display: flex;
   justify-content: center;
   align-items: center;
-  animation-name: site-mirror;
-  animation-duration: 1s;
+  // animation-name: site-mirror;
+  // animation-duration: 1s;
   .login-container {
     width: 50%;
     height: 50%;

@@ -16,7 +16,8 @@ export default defineConfig({
     // 配置反向代理
     proxy: {
       '/api': {
-        target: 'http://362b6e78.r8.cpolar.top',
+        // target: 'http://362b6e78.r8.cpolar.top',
+        target: 'http://192.168.195.134:63010',
         changeOrigin: true,
         ws: false,
         rewrite: (path) => path.replace(/^\/api/, ''),

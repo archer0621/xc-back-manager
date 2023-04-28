@@ -1,8 +1,8 @@
-import { setUpRouter } from '@/router/index'
+import router from '@/router/index'
 import { App } from 'vue'
 
 const setUpInit = (app: App) => {
-  app.use(setUpRouter)
+  app.use(router)
 }
 
 export default setUpInit
