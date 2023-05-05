@@ -31,18 +31,12 @@
 <script lang="ts">
 import { UserOutlined, LockOutlined } from '@ant-design/icons-vue'
 import { ref, reactive, onMounted, defineComponent, UnwrapRef } from 'vue'
-import { getCheckCode, userLogin } from '@/service/index'
-import { querystringify, setCookie } from '@/common/index'
+import { getCheckCode } from '@/service/index'
+import { querystringify } from '@/common/index'
 import { message } from 'ant-design-vue'
 import router from '@/router'
 import { useUserStore } from '@/pinia/modules/user'
-import { error, log } from 'console'
 import { usePermissionStoreHook } from '@/pinia/modules/permission'
-import { NavigationGuardNext, RouteLocationNormalized, RouteRecordRaw } from 'vue-router'
-
-
-const permissionStore = usePermissionStoreHook()
-const userStore = useUserStore()
 
 interface FormData {
   username: string
@@ -65,6 +59,9 @@ export default defineComponent({
     LockOutlined,
   },
   setup() {
+    const permissionStore = usePermissionStoreHook()
+    const userStore = useUserStore()
+
     const formData: UnwrapRef<FormData> = reactive({
       username: 'super',
       password: '111111',
@@ -86,23 +83,19 @@ export default defineComponent({
 
     // 点击刷新验证码
     async function updateCode() {
-      const {data} = await getCheckCode()
+      const { data } = await getCheckCode()
       formData.checkcodekey = data.data.key
       img.value = data.data.aliasing
     }
-    async function loginSubmit() {
+    function loginSubmit() {
       let formDataJson = JSON.stringify(formData)
       usernamejson.username = formDataJson
       let params = querystringify(usernamejson)
       if (params) {
-        await userStore.login(params)
-        message.success('登录成功')
-        const accessRoutes: RouteRecordRaw[] = await permissionStore.getRoutes()
-        accessRoutes.forEach((route: RouteRecordRaw) => router.addRoute(route))
-        setTimeout(() => {
-          router.push('/userStudent')
-        }, 1000)
-        
+        userStore.login(params).then(() => {
+          message.success('登录成功')
+          router.push('/index')
+        })
       } else {
         message.error('未知错误')
       }
@@ -150,7 +143,7 @@ export default defineComponent({
         .checkcode {
           display: flex;
           justify-content: space-between;
-          /deep/ .ant-form-item-label > label {
+          ::v-deep(.ant-form-item-label > label) {
             font-size: 20px;
           }
           .ant-form-item-control-input-content {

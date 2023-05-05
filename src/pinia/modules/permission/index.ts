@@ -33,12 +33,11 @@ export const usePermissionStore = defineStore('permission', () => {
   const getRoutes = (): Promise<RouteRecordRaw[]> => {
     return new Promise<RouteRecordRaw[]>((resolve, reject): void => {
       getInfoApi().then((data: AxiosResponse<any, any>): void => {
-        const asyncRoutes = [...data.data.data.routerList]
-        const accessedRoutes: RouteRecordRaw[] = getAsyncRoutes(asyncRoutes)
-        console.log(accessedRoutes);
-        routes.value = constantRoutes.concat(accessedRoutes)
-        console.log(routes.value);
-        resolve(accessedRoutes)
+        const asyncRoutes = data.data.data.routerReturnDto
+        const accessedRoutes: RouteRecordRaw[] = getAsyncRoutes([...asyncRoutes?.children])
+        constantRoutes[1].children = constantRoutes[1].children?.concat(accessedRoutes)
+        routes.value = constantRoutes
+        resolve(constantRoutes)
       }).catch((error): void => {
         reject(error)
       })

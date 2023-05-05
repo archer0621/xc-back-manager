@@ -1,17 +1,16 @@
 import { defineStore } from 'pinia'
 import { Ref, ref, UnwrapRef } from 'vue'
 import { store } from '@/pinia'
-import { resetRouter, routes } from '@/router'
+import { resetRouter } from '@/router'
 import { AxiosResponse } from 'axios'
 import { getToken, removeToken, setToken } from '@/utils/auth'
 import { userLogin as loginApi, logout as logoutApi, getUserInfo as getInfoApi } from '@/service/index'
-import { usePermissionStore } from '../permission'
-import { useRouter } from 'vue-router'
-const router = useRouter()
-const permissionStore = usePermissionStore()
-
+import { UserInfo } from '@/api/system/user/type'
+import { MenuList } from '@/api/system/menu/type'
 export const useUserStore = defineStore('user', () => {
   const token: Ref<UnwrapRef<String>> = ref<String>(getToken() || '')
+  const roles: Ref<Object> = ref<Object>({})
+  const menus: Ref<Array<MenuList>> = ref([]) 
   // 登录
   const login = (loginForm: string): Promise<void> => {
     return new Promise<void>((resolve, reject): void => {
@@ -37,16 +36,34 @@ export const useUserStore = defineStore('user', () => {
     })
   }
 
+  // 获取登录信息
+  const getInfo = (): Promise<UserInfo> => {
+    return new Promise<UserInfo>((resolve, reject): void => {
+      getInfoApi().then(({ data }): void => {
+        console.log(data.data);
+        const asyncMenus: Array<MenuList> = [...data.data.managementDtoList]
+        menus.value = asyncMenus
+        roles.value = data.data.xcUserDto
+        resolve(data)
+      }).catch((error): void => {
+        reject(error)
+      })
+    })
+  }
 
   // 重置
   const resetAuth = (): void => {
     removeToken()
     token.value = ''
+    roles.value = {}
   }
   return {
     token,
+    roles,
+    menus,
     login,
     logout,
+    getInfo
   }
 })
 

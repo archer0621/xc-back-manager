@@ -4,24 +4,38 @@ import { createRouter, createWebHistory, Router, RouteRecordRaw } from 'vue-rout
 export const routes: Array<RouteRecordRaw> = [
   {
     path: '/login',
+    name: 'login',
     component: () => import('@/views/login/index.vue'),
-    meta: { hidden: true }
-  }
+    meta: { hidden: true },
+  },
+  {
+    path: '/',
+    name: '',
+    component: () => import('@/layout/index.vue'),
+    meta: { hidden: true },
+    children: [
+      {
+        path: '/index',
+        component: () => import('@/layout/Main/main.vue'),
+        meta: { title: '首页'}
+      },
+    ]
+  },
+  // {
+  //   path: '/:catchAll(.*)',
+  //   name: '404',
+  //   component: () => import('@/views/error/index.vue'),
+  // },
 ]
 
-export const dynamicRoutes: Array<RouteRecordRaw> = [
-  
-]
-
+export const dynamicRoutes: Array<RouteRecordRaw> = []
 
 // 重置路由
-export const resetRouter = (): void => {
-  
-}
+export const resetRouter = (): void => {}
 
 const router: Router = createRouter({
   history: createWebHistory(),
-  routes
+  routes,
 })
 
 export default router

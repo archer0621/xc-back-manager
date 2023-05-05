@@ -1,79 +1,23 @@
 <template>
   <a-layout style="min-height: 100vh">
-    <a-layout-sider v-model:collapsed="collapsed" collapsible>
-      <div class="manager-logo" @click="logout">123</div>
-      <a-menu v-model:selectedKeys="selectedKeys" theme="dark" mode="inline">
-        <a-menu-item key="1">
-          <pie-chart-outlined />
-          <span>Option 1</span>
-        </a-menu-item>
-        <a-menu-item key="2">
-          <desktop-outlined />
-          <span>Option 2</span>
-        </a-menu-item>
-        <a-sub-menu key="sub1">
-          <template #title>
-            <span>
-              <user-outlined />
-              <span>User</span>
-            </span>
-          </template>
-          <a-menu-item key="3">Tom</a-menu-item>
-          <a-menu-item key="4">Bill</a-menu-item>
-          <a-menu-item key="5">Alex</a-menu-item>
-        </a-sub-menu>
-        <a-sub-menu key="sub2">
-          <template #title>
-            <span>
-              <team-outlined />
-              <span>Team</span>
-            </span>
-          </template>
-          <a-menu-item key="6">Team 1</a-menu-item>
-          <a-menu-item key="8">Team 2</a-menu-item>
-        </a-sub-menu>
-        <a-menu-item key="9">
-          <file-outlined />
-          <span>File</span>
-        </a-menu-item>
-      </a-menu>
-    </a-layout-sider>
+    <Sidebar />
     <a-layout>
-      <a-layout-header style="background: #fff; padding: 0" />
+      <NavBar />
       <a-layout-content style="margin: 0 16px">
-        <a-breadcrumb style="margin: 16px 0">
-          <a-breadcrumb-item>User</a-breadcrumb-item>
-          <a-breadcrumb-item>Bill</a-breadcrumb-item>
-        </a-breadcrumb>
-        <div :style="{ padding: '24px', background: '#fff', minHeight: '360px' }">Bill is a cat.</div>
+        <Breadcrumb />
+        <Main />
       </a-layout-content>
-      <a-layout-footer style="text-align: center"> Ant Design ©2018 Created by Ant UED </a-layout-footer>
+      <Footer />
     </a-layout>
   </a-layout>
 </template>
 <script lang="ts" setup>
-import { useUserStore } from '@/pinia/modules/user'
-import router from '@/router'
-const userStore = useUserStore()
-const logout = () => {
-  userStore.logout().then(() => {
-    location.href = '/login'
-  }).catch(e => {
-    console.log(e);
-  })
-}
+import Sidebar from '@/layout/Sidebar/index.vue'
+import NavBar from './NavBar/index.vue'
+import Breadcrumb from './Main/breadcrumb.vue'
+import Main from './Main/index.vue'
+import Footer from './Footer/index.vue'
+import { ref, provide } from 'vue'
+const collapsed = ref<boolean>(false)
+provide('collapsed', collapsed)
 </script>
-<style scoped lang="less">
-.manager-logo {
-  height: 40px;
-  margin: 16px;
-  background: rgba(255, 255, 255, 0.3);
-}
-
-.site-layout .site-layout-background {
-  background: #fff;
-}
-[data-theme='dark'] .site-layout .site-layout-background {
-  background: #141414;
-}
-</style>

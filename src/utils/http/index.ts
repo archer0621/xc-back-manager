@@ -2,7 +2,6 @@ import axios, { AxiosInstance, AxiosResponse, InternalAxiosRequestConfig } from 
 import { getToken, removeToken } from '@/utils/auth'
 import { message } from 'ant-design-vue'
 import { useUserStoreHook } from '@/pinia/modules/user'
-import { config } from 'process'
 let reLoginFlag: boolean = true
 
 const service: AxiosInstance = axios.create({
