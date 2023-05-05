@@ -23,7 +23,6 @@ const getBreadcrumbName = (route: RouteRecordRaw) => {
   return route.meta?.breadcrumbName || route.name
 }
 // 根据当前路由来生成面包屑的路由
-const breadcrumbRoutes = getBreadcrumbRoutes(route.matched[route.matched.length - 1])
 const breadcrumbs = ref([] as Array<RouteLocationMatched>)
 watch(route, () => {
   breadcrumbs.value = route.matched.slice(1)

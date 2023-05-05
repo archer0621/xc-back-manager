@@ -72,6 +72,8 @@ import { getBarInfo, getLineInfo, getPieInfo, getTimeLog, getFinanceRatio, getMe
 import { lineData, pieData, barData } from '@/components/echarts/options'
 import { timeLogType, ratioType } from '@/api/system/charts/type'
 import Card from '@/components/card/index.vue'
+
+// 加载主页相关图表信息资源
 const barOption = ref({})
 const lineOption = ref({})
 const pieOption = ref({})
@@ -86,8 +88,10 @@ const ratio = reactive({
   teacherRatio: {} as ratioType,
   orderRatio: {} as ratioType,
 })
+// 数据未加载完毕时使用骨架屏和loading效果
 const loading = ref<boolean>(true)
-const getChartList = async () => {
+const getList = async () => {
+  // 获取折线图信息
   await getLineInfo().then((res: any) => {
     let xAxisData = res.data.data.map((item) => {
       return item.date
@@ -97,6 +101,7 @@ const getChartList = async () => {
     })
     lineOption.value = lineData(xAxisData, seriesData)
   })
+  // 获取柱状图信息
   await getBarInfo().then((res: any) => {
     let xAxisData = res.data.data.map((item) => {
       return item.date
@@ -106,6 +111,7 @@ const getChartList = async () => {
     })
     barOption.value = barData(xAxisData, seriesData)
   })
+  // 获取饼状图信息
   await getPieInfo().then((res: any) => {
     res = res.data.data.map((item) => ({
       value: item.count,
@@ -113,13 +119,14 @@ const getChartList = async () => {
     }))
     pieOption.value = pieData(res)
   })
+  // 获取时间轴信息
   await getTimeLog().then((res: any) => {
     timeLog.timeList = res.data.data.map((item) => ({
       description: item.description,
       createTime: item.createTime.substring(0, 10),
     }))
   })
-
+  // 获取首行的6个卡片内容增长率
   await getFinanceRatio().then((res: any) => {
     ratio.finaceRatio = res.data.data
     ratio.finaceRatio.title = '收入额同比上月数据'
@@ -174,6 +181,7 @@ const getChartList = async () => {
       ratio.orderRatio.color = '#cf1322'
     }
   })
+  // 实现数据全部加载完毕后展示
   loading.value = !loading.value
 }
 
@@ -190,7 +198,7 @@ const barStyle = {
 }
 
 onMounted(() => {
-  getChartList()
+  getList()
 })
 </script>
 <style lang="less">

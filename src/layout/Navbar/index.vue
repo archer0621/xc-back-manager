@@ -1,6 +1,7 @@
 <template>
   <a-layout-header class="layout-header">
     <div class="left">
+      <!-- 顶部左侧 -->
       <menu-unfold-outlined v-if="collapsed" class="trigger" @click="updateCollapsed" />
       <menu-fold-outlined v-else class="trigger" @click="updateCollapsed" />
     </div>
@@ -12,7 +13,8 @@
 <script setup lang="ts">
 import ThemeBar from './themeBar.vue'
 import { MenuUnfoldOutlined, MenuFoldOutlined } from '@ant-design/icons-vue'
-import { ref, provide, inject } from 'vue'
+import { inject } from 'vue'
+// 传递collapsed实现伸缩菜单框
 const collapsed: any = inject('collapsed')
 const updateCollapsed = () => {
   collapsed.value = !collapsed.value

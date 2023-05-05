@@ -1,11 +1,12 @@
 <template>
   <div class="right_menu-item">
+    <!-- 顶部右侧 -->
     <div class="right_menu-item">
       <CompressOutlined class="icon-svg" @click="toggle" v-if="isFullscreen" />
       <ExpandOutlined class="icon-svg" @click="toggle" v-else />
     </div>
     <div class="right_menu-item">
-      <github-outlined />
+      <a href="https://github.com/archer0621"><github-outlined /></a>
     </div>
     <div class="right_menu-item hidden-xs">
       <img v-if="userInfo.userpic" class="user-head" src="@/assets/img/default_user.png" alt="" />
