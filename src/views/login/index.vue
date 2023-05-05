@@ -36,7 +36,7 @@ import { querystringify } from '@/common/index'
 import { message } from 'ant-design-vue'
 import router from '@/router'
 import { useUserStore } from '@/pinia/modules/user'
-import { usePermissionStoreHook } from '@/pinia/modules/permission'
+import { debounce } from '@/utils/common/index'
 
 interface FormData {
   username: string
@@ -59,47 +59,49 @@ export default defineComponent({
     LockOutlined,
   },
   setup() {
-    const permissionStore = usePermissionStoreHook()
     const userStore = useUserStore()
-
     const formData: UnwrapRef<FormData> = reactive({
       username: 'super',
       password: '111111',
       checkcode: '',
       authType: 'password',
     })
-
+    const code = ref<string>('')
     const usernamejson: UnwrapRef<Usernamejson> = reactive({
       username: formData,
       grant_type: 'password',
       client_secret: 'XcWebApp',
       client_id: 'XcWebApp',
     })
-
     const img = ref<string>('')
     onMounted(async () => {
       updateCode()
     })
-
     // 点击刷新验证码
     async function updateCode() {
       const { data } = await getCheckCode()
       formData.checkcodekey = data.data.key
       img.value = data.data.aliasing
+      code.value = data.data.code
     }
-    function loginSubmit() {
-      let formDataJson = JSON.stringify(formData)
-      usernamejson.username = formDataJson
-      let params = querystringify(usernamejson)
-      if (params) {
-        userStore.login(params).then(() => {
-          message.success('登录成功')
-          router.push('/index')
-        })
+    function login() {
+      if (code.value.toLowerCase() === formData.checkcode.toLowerCase()) {
+        let formDataJson = JSON.stringify(formData)
+        usernamejson.username = formDataJson
+        let params = querystringify(usernamejson)
+        if (params) {
+          userStore.login(params).then(() => {
+            message.success('登录成功')
+            router.push('/index')
+          })
+        } else {
+          message.error('未知错误')
+        }
       } else {
-        message.error('未知错误')
+        message.error('验证码错误')
       }
     }
+    let loginSubmit = debounce(login, 2000)
     return {
       formData,
       img,
