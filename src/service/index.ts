@@ -118,6 +118,15 @@ const getOrderRatio = () => {
   })
 }
 
+// 获取用户列表
+const getUserList = (params = null, pageNo = 1, pageSize = 10) => {
+  return request({
+    url: '/user/list',
+    method: 'get',
+    params: params
+  })
+}
+
 export {
   testGet,
   getCheckCode,
@@ -133,5 +142,6 @@ export {
   getCourseRatio,
   getPublishRatio,
   getTeacherRatio,
-  getOrderRatio
+  getOrderRatio,
+  getUserList
 }

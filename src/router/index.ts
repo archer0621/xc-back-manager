@@ -19,6 +19,11 @@ export const routes: Array<RouteRecordRaw> = [
         component: () => import('@/layout/Main/main.vue'),
         meta: { title: '首页'}
       },
+      {
+        path: '/:catchAll(.*)',
+        name: '404',
+        component: () => import('@/views/error/index.vue'),
+      },
     ]
   },
   // {
