@@ -1,107 +1,108 @@
 <template>
   <div class="stu_container">
     <div class="stu_header">
-      <a-button type="primary">刷新</a-button>
+      <a-button type="primary" @click="handleRefresh">刷新</a-button>
       <a-button class="add">新增</a-button>
       <a-button type="primary" danger>删除</a-button>
     </div>
     <div class="stu_main">
-      <a-table sticky :columns="columns" :data-source="data" :scroll="{ x: 1500 }">
-        <template #bodyCell="{ column }">
-          <template v-if="column.key === 'operation'"><a>action</a></template>
-        </template>
-      </a-table>
+      <MyTable :columns="user_columns" :getData="getUserData" :key="timer" />
     </div>
     <div class="stu_footer"></div>
   </div>
 </template>
-<script lang="ts">
-import type { TableColumnsType } from 'ant-design-vue'
-import { defineComponent, ref } from 'vue'
+<script setup lang="ts">
+import MyTable from '@/components/table/index.vue'
 import { getUserList } from '@/service/index'
-export default defineComponent({
-  setup() {
-    const columns = ref<TableColumnsType>([
-      {
-        title: 'Full Name',
-        width: 100,
-        dataIndex: 'name',
-        key: 'name',
-        fixed: 'left',
-      },
-      {
-        title: 'Age',
-        width: 100,
-        dataIndex: 'age',
-        key: 'age',
-        fixed: 'left',
-      },
-      {
-        title: 'Column 1',
-        dataIndex: 'address',
-        key: '1',
-        width: 150,
-      },
-      {
-        title: 'Column 2',
-        dataIndex: 'address',
-        key: '2',
-        width: 150,
-      },
-      {
-        title: 'Column 3',
-        dataIndex: 'address',
-        key: '3',
-        width: 150,
-      },
-      {
-        title: 'Column 4',
-        dataIndex: 'address',
-        key: '4',
-        width: 150,
-      },
-      {
-        title: 'Column 5',
-        dataIndex: 'address',
-        key: '5',
-        width: 150,
-      },
-      {
-        title: 'Column 6',
-        dataIndex: 'address',
-        key: '6',
-        width: 150,
-      },
-      {
-        title: 'Column 7',
-        dataIndex: 'address',
-        key: '7',
-        width: 150,
-      },
-      { title: 'Column 8', dataIndex: 'address', key: '8' },
-      {
-        title: 'Action',
-        key: 'operation',
-        fixed: 'right',
-        width: 100,
-      },
-    ])
-
-    const data = []
-    for (let i = 0; i < 100; i++) {
-      data.push({
-        key: i,
-        name: `Edrward ${i}`,
-        age: 32,
-        address: `London Park no. ${i}`,
-      })
-    }
-    return {
-      data,
-      columns,
-    }
+import { ref } from 'vue'
+const timer = ref(0)
+const user_columns = [
+  {
+    title: 'ID',
+    dataIndex: 'id',
+    sorter: (a, b) => a.id - b.id,
   },
-})
+  {
+    title: '用户名',
+    dataIndex: 'username',
+    customFilterDropdown: true,
+    onFilter: (value, record) => record.username.toString().toLowerCase().includes(value.toLowerCase()),
+  },
+  {
+    title: '昵称',
+    dataIndex: 'nickname',
+    customFilterDropdown: true,
+    onFilter: (value, record) => record.nickname.toString().toLowerCase().includes(value.toLowerCase()),
+  },
+  {
+    title: '性别',
+    dataIndex: 'sex',
+    filters: [
+      {
+        text: '男',
+        value: '1',
+      },
+      {
+        text: '女',
+        value: '0',
+      },
+    ],
+    onFilter: (value, record) => record.sex.indexOf(value) === 0,
+  },
+  {
+    title: 'QQ号',
+    dataIndex: 'qq',
+    customFilterDropdown: true,
+    onFilter: (value, record) => record.qq.toString().toLowerCase().includes(value.toLowerCase()),
+  },
+  {
+    title: '邮箱',
+    dataIndex: 'email',
+    customFilterDropdown: true,
+    onFilter: (value, record) => record.email.toString().toLowerCase().includes(value.toLowerCase()),
+  },
+  {
+    title: '头像',
+    dataIndex: 'userpic',
+  },
+  {
+    title: '创建时间',
+    dataIndex: 'createTime',
+    sorter: (a, b) => a.createTime - b.createTime,
+  },
+  {
+    title: '状态',
+    dataIndex: 'status',
+    filters: [
+      {
+        text: '正常',
+        value: 1,
+      },
+      {
+        text: '封禁中',
+        value: 0,
+      },
+    ],
+    onFilter: (value, record) => record.status.indexOf(value) === 0,
+  },
+  {
+    title: '操作',
+    key: 'operation',
+    fixed: 'right',
+    width: 100,
+  },
+]
+const getUserData = async (page: number, pageSize: number) => {
+  const { data } = await getUserList(null, page, pageSize)
+  return {
+    dataList: data.items,
+    total: data.counts,
+  }
+}
+
+const handleRefresh = async () => {
+  timer.value = new Date().getTime()
+}
 </script>
 <style lang="less">
 .stu_container {

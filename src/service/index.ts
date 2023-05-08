@@ -119,10 +119,10 @@ const getOrderRatio = () => {
 }
 
 // 获取用户列表
-const getUserList = (params = null, pageNo = 1, pageSize = 10) => {
+const getUserList = (params = null, pageNo = 1, pageSize = 5) => {
   return request({
-    url: '/user/list',
-    method: 'get',
+    url: `/user/list?pageNo=${pageNo}&&pageSize=${pageSize}`,
+    method: 'post',
     params: params
   })
 }
