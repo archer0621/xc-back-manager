@@ -127,6 +127,75 @@ const getUserList = (params = null, pageNo = 1, pageSize = 5) => {
   })
 }
 
+// 获取角色列表
+const get_role = (params = null, pageNo = 1, pageSize = 5) => {
+  return request({
+    url: `/user/role/list?pageNo=${pageNo}&&pageSize=${pageSize}`,
+    method: 'post',
+    params: params
+  })
+}
+
+// 获取菜单树
+const api_role_tree = (role_id = null) => {
+  let url = role_id === null ? `/user/permissionList` : `/user/permissionList?roleId=${role_id}`
+  return request({
+    url: url,
+    method: 'get'
+  })
+}
+
+// 修改角色权限
+const api_edit_role = (role_id, params) => {
+  return request({
+    url: `/user/grantPermissions?roleId=${role_id}`,
+    method: 'post',
+    data: params
+  })
+}
+
+// 获取下拉框角色信息
+const api_select_role = () => {
+  return request({
+    url: `/user/role/getRoleNameList`,
+    method: 'get',
+  })
+}
+
+// 添加角色信息
+const api_add_user = (params) => {
+  return request({
+    url: `/user/register`,
+    method: 'post',
+    data: params
+  })
+}
+
+// 根据ID获取用户信息
+const api_get_user = (userId) => {
+  return request({
+    url: `/user/findUserById?userId=${userId}`,
+    method: 'get'
+  })
+} 
+
+// 修改用户信息
+const api_edit_user = (params) => {
+  return request({
+    url: `/user/updateUser`,
+    method: 'post',
+    data: params
+  })
+}
+
+// 删除用户信息
+const api_del_user = (userId) => {
+  return request({
+    url: `/user/deleteUserById?userId=${userId}`,
+    method: 'delete'
+  })
+}
+
 export {
   testGet,
   getCheckCode,
@@ -143,5 +212,13 @@ export {
   getPublishRatio,
   getTeacherRatio,
   getOrderRatio,
-  getUserList
+  getUserList,
+  get_role,
+  api_role_tree,
+  api_edit_role,
+  api_select_role,
+  api_add_user,
+  api_get_user,
+  api_edit_user,
+  api_del_user
 }

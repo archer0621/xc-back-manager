@@ -1,12 +1,12 @@
 <template>
-    <a-sub-menu v-if="item.managementList" :key="item.managementList.id">
+    <a-sub-menu v-if="item.menuSonList" :key="item.menuSonList.id">
       <template #title>
         <component :is="item.icon"/>
         <span>
           {{ item.name }}
         </span>
       </template>
-      <a-menu-item v-for="childen in item.managementList" :key="childen.id">
+      <a-menu-item v-for="childen in item.menuSonList" :key="childen.id">
         <component :is="childen.icon"/>
         <span>
           {{ childen.name }}

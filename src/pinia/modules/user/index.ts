@@ -41,7 +41,7 @@ export const useUserStore = defineStore('user', () => {
     return new Promise<UserInfo>((resolve, reject): void => {
       getInfoApi().then(({ data }): void => {
         console.log(data.data);
-        const asyncMenus: Array<MenuList> = [...data.data.managementDtoList]
+        const asyncMenus: Array<MenuList> = [...data.data.menuDtoList]
         menus.value = asyncMenus
         roles.value = data.data.xcUserDto
         resolve(data)

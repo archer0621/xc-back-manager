@@ -13,48 +13,27 @@
           />
           <a-button type="primary" size="small" style="width: 90px; margin-right: 8px" @click="handleSearch(selectedKeys, confirm, column.dataIndex)">
             <template #icon><SearchOutlined /></template>
-            Search
+            查找
           </a-button>
-          <a-button size="small" style="width: 90px" @click="handleReset(clearFilters)"> Reset </a-button>
+          <a-button size="small" style="width: 90px" @click="handleReset(clearFilters)">重置</a-button>
         </div>
       </template>
-
-      <template #bodyCell="{ column, record }">
-        <template v-if="column.dataIndex === 'sex'">
-          <span>
-            <a-tag :color="record.sex === '1' ? 'geekblue' : 'green'">
-              {{ record.sex === '1' ? '男' : '女' }}
-            </a-tag>
-          </span>
-        </template>
-        <template v-if="column.dataIndex === 'userpic'">
-          <a-image :src="record.userpic" :width="40" :height="40" />
-        </template>
-        <template v-if="column.dataIndex === 'status'">
-          <span>
-            <a-tag :color="record.status === '1' ? 'green' : 'red'">
-              {{ record.status === '1' ? '正常' : '封禁中' }}
-            </a-tag>
-          </span>
-        </template>
-        <template v-if="column.key === 'operation'">
-          <div style="display: flex; justify-content: center">
-            <a-button type="primary" size="small">修改</a-button>
-            <a-button type="primary" size="small" danger>删除</a-button>
-          </div>
-        </template>
+      <template v-for="(value, key) in slot" v-slot:[key]="slotProps" :key="key">
+        <slot :name="key" v-bind="slotProps"></slot>
       </template>
     </a-table>
   </div>
 </template>
 
 <script setup lang="ts">
-import { onMounted, reactive } from 'vue'
+import { onMounted, reactive, useSlots } from 'vue'
 interface IPagination {
   total: number
   current: number
   pageSize: number
 }
+
+const slot = useSlots()
 
 const props = defineProps({
   columns: {
@@ -72,7 +51,7 @@ const state = reactive({
   loading: false,
   pagination: {
     current: 1,
-    pageSize: 5,
+    pageSize: 10,
     pageSizeOptions: ['1', '5', '10', '20'],
     total: 0,
     showTotal: (total) => `共${total}条数据`,
@@ -113,12 +92,11 @@ const handlePageChange = async (form: any) => {
   await queryData(form.current, form.pageSize)
 }
 
+const show_drawer = (id) => {
+  console.log('click it: ', id)
+}
+
 onMounted(() => {
   handlePageChange(state.pagination)
 })
 </script>
-<style scoped lang="less">
-.ant-btn {
-  margin: 5px;
-}
-</style>

@@ -83,17 +83,21 @@ export default defineComponent({
       formData.checkcodekey = data.data.key
       img.value = data.data.aliasing
       code.value = data.data.code
+
+
+      formData.checkcode = data.data.code
+
+      
     }
-    function login() {
+    async function login() {
       if (code.value.toLowerCase() === formData.checkcode.toLowerCase()) {
         let formDataJson = JSON.stringify(formData)
         usernamejson.username = formDataJson
         let params = querystringify(usernamejson)
         if (params) {
-          userStore.login(params).then(() => {
-            message.success('登录成功')
-            router.push('/index')
-          })
+          await userStore.login(params)
+          message.success('登录成功')
+          router.push('/index')
         } else {
           message.error('未知错误')
         }
@@ -118,10 +122,10 @@ export default defineComponent({
   display: flex;
   justify-content: center;
   align-items: center;
-  // animation-name: site-mirror;
-  // animation-duration: 1s;
+  animation-name: site-mirror;
+  animation-duration: 1s;
   .login-container {
-    width: 50%;
+    width: 35%;
     height: 50%;
     background: #fff;
     border-radius: 10px;
@@ -130,9 +134,9 @@ export default defineComponent({
     .login-content {
       .login-title {
         user-select: none;
-        height: 220px;
+        height: 300px;
         width: 100%;
-        line-height: 220px;
+        line-height: 300px;
         font-size: 48px;
         background-image: linear-gradient(rgb(16, 3, 56), rgb(132, 248, 246));
         background-clip: text;

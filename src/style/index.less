@@ -1,12 +1,27 @@
 html,
 body {
-  background-color: #f4f6f8;
-  background: url('@/assets/img/login_bg.png') no-repeat;
   height: 100%;
   width: 100%;
   overflow: hidden;
   margin: 0;
   padding: 0;
+  background-image: linear-gradient(
+    125deg, #2c3e50, #27ae60,
+    #2980b9, #e74c3c, #8e44ad
+  );
+  background-size: 400%;
+  animation: bgmove 20s infinite;
+}
+@keyframes bgmove {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
 }
 #app {
   height: 100vh;
