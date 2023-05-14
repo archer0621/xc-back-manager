@@ -2,7 +2,7 @@
   <div class="login">
     <div class="login-container">
       <div class="login-content">
-        <div class="login-title">学成在线后台管理系统</div>
+        <div class="login-title">学成归来后台管理系统</div>
         <div class="login-input">
           <a-form :model="formData">
             <a-form-item>
@@ -136,6 +136,7 @@ export default defineComponent({
         user-select: none;
         height: 300px;
         width: 100%;
+        text-align: center;
         line-height: 300px;
         font-size: 48px;
         background-image: linear-gradient(rgb(16, 3, 56), rgb(132, 248, 246));

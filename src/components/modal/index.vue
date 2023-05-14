@@ -97,12 +97,11 @@
   </a-modal>
 </template>
 <script setup lang="ts">
-import { reactive, ref, getCurrentInstance } from 'vue'
+import { reactive, ref } from 'vue'
 import { getBase64 } from '@/utils/common/index'
 import { message } from 'ant-design-vue'
 import type { UploadChangeParam, UploadProps } from 'ant-design-vue'
 import { getToken } from '@/utils/auth/index'
-import { api_add_user, api_edit_user } from '@/service/index'
 interface OptionsType {
   value: number
   label: string
@@ -124,6 +123,14 @@ interface FieldType {
 
 const props = defineProps({
   refresh: Function,
+  add: {
+    type: Function,
+    required: true
+  },
+  edit: {
+    type: Function,
+    required: true
+  },
   labelCol: {
     type: Object,
     default: () => {
@@ -162,7 +169,6 @@ const state = reactive({
   },
 })
 
-const instance = getCurrentInstance();
 const methods = reactive({
   handleOpen: (show, record, options) => {
     if (record !== null) {
@@ -219,11 +225,11 @@ const methods = reactive({
     try {
         const values = await formRef.value.validateFields();
         if (state.title === '新增') {
-          await api_add_user(values)
+          await props.add(values)
         } else {
           values.id = state.id
           values.userpic = state.form.url
-          await api_edit_user(values)
+          await props.edit(values)
         }
         state.visible = false
         

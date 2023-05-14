@@ -41,6 +41,8 @@
         </template>
       </MyTable>
       <Modal ref="form" 
+        :add="api_add_user"
+        :edit="api_edit_user"
         :options="state.add_form_options" 
         :refresh="state.handleRefresh"/>
     </div>
@@ -54,6 +56,7 @@ import { getUserList, api_select_role, api_get_user, api_del_user } from '@/serv
 import { onMounted, reactive, ref } from 'vue'
 import { edit_field_options, add_field_options } from './userForm'
 import { message, UploadProps } from 'ant-design-vue';
+import { api_add_user, api_edit_user } from '@/service/index'
 interface OptionsType {
   value: number,
   label: string
@@ -118,6 +121,12 @@ const user_columns = [
     dataIndex: 'nickname',
     customFilterDropdown: true,
     onFilter: (value, record) => record.nickname.toString().toLowerCase().includes(value.toLowerCase()),
+  },
+  {
+    title: '角色',
+    dataIndex: 'roleName',
+    customFilterDropdown: true,
+    onFilter: (value, record) => record.roleName.toString().toLowerCase().includes(value.toLowerCase()),
   },
   {
     title: '性别',

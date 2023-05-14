@@ -147,3 +147,75 @@ export function barData(xAxisData, seriesData) {
     ]
   }
 }
+
+
+
+
+
+
+export function userData() {
+  return {
+    title: {
+      text: '电影推荐度 TOP10',
+      textStyle: {
+        fontSize: 17
+      }
+    },
+    tooltip: {
+      trigger: 'axis',
+      axisPointer: {
+        type: 'shadow'
+      },
+      position: ['120', '150']
+    },
+    grid: {
+      left: '3%',
+      right: '4%',
+      bottom: '3%',
+      containLabel: true
+    },
+    xAxis: [
+      {
+        type: 'category',
+        data: [
+          'Boys', 
+          'Shadowlands',
+          'Sirens', 
+          'Germinal', 
+          'Ghost', 
+          'Pretty Woman', 
+          'The Pallbearer', 
+          'Jane Eyre',
+          'Heavy',
+          'Emma'
+        ],
+        axisTick: {
+          alignWithLabel: true
+        },
+        axisLabel: {
+          interval:0,//代表显示所有x轴标签显示
+          rotate:45, //代表逆时针旋转45度
+          color: '#000'
+        }
+
+      },
+      
+    ],
+    yAxis: [
+      {
+        type: 'value',
+        axisLabel: {
+          color: '#000'
+        }
+      },
+    ],
+    series: [
+      {
+        name: '推荐度',
+        type: 'bar',
+        barWidth: '30%',
+        data: [0.92, 0.85, 0.83, 0.82, 0.79, 0.79, 0.75, 0.74, 0.74, 0.71]
+      }
+    ]
+  }
+}

@@ -196,6 +196,40 @@ const api_del_user = (userId) => {
   })
 }
 
+// 根据ID获取角色信息
+const api_get_role = (roleId) => {
+  return request({
+    url: `/user/findRoleById?roleId=${roleId}`,
+    method: 'get'
+  })
+}
+
+// 添加角色信息
+const api_add_role = (params) => {
+  return request({
+    url: `/user/roleCreate`,
+    method: 'post',
+    data: params
+  })
+}
+
+// 修改角色信息
+const api_update_role = (params) => {
+  return request({
+    url: `/user/roleUpdate`,
+    method: 'post',
+    data: params
+  })
+}
+
+// 删除角色信息
+const api_del_role = (roleId) => {
+  return request({
+    url: `/user/roleDeleteById?roleId=${roleId}`,
+    method: 'delete'
+  })
+}
+
 export {
   testGet,
   getCheckCode,
@@ -220,5 +254,9 @@ export {
   api_add_user,
   api_get_user,
   api_edit_user,
-  api_del_user
+  api_del_user,
+  api_add_role,
+  api_get_role,
+  api_update_role,
+  api_del_role
 }

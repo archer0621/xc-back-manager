@@ -39,16 +39,16 @@
     </a-row>
 
     <a-row>
-      <a-col :span="8">
+      <a-col :span="4">
         <a-card title="课程分类" :bordered="false" class="echart-card">
           <a-spin v-if="loading" size="large" tip="玩儿命加载中······"/>
           <my-echarts v-else :myOption="pieOption" :myStyle="pieStyle" />
         </a-card>
       </a-col>
-      <a-col :span="10">
+      <a-col :span="14">
         <a-card title="公司营收" :bordered="false" class="echart-card">
           <a-spin v-if="loading" size="large" tip="玩儿命加载中······"/>
-          <my-echarts v-else :myOption="barOption" :myStyle="barStyle" />
+          <my-echarts v-else :myOption="barOption" :myStyle="barStyle"/>
         </a-card>
       </a-col>
       <a-col :span="6">
@@ -69,7 +69,7 @@
 import MyEcharts from '@/components/echarts/index.vue'
 import { ref, reactive, onMounted } from 'vue'
 import { getBarInfo, getLineInfo, getPieInfo, getTimeLog, getFinanceRatio, getMediaRatio, getCourseRatio, getPublishRatio, getTeacherRatio, getOrderRatio } from '@/service/index'
-import { lineData, pieData, barData } from '@/components/echarts/options'
+import { lineData, pieData, barData, userData } from '@/components/echarts/options'
 import { timeLogType, ratioType } from '@/api/system/charts/type'
 import Card from '@/components/card/index.vue'
 
@@ -111,6 +111,7 @@ const getList = async () => {
     })
     barOption.value = barData(xAxisData, seriesData)
   })
+  
   // 获取饼状图信息
   await getPieInfo().then((res: any) => {
     res = res.data.data.map((item) => ({
