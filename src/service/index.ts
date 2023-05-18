@@ -230,6 +230,66 @@ const api_del_role = (roleId) => {
   })
 }
 
+// 获取媒资信息
+const api_get_media =  (params = null, pageNo = 1, pageSize = 5) => {
+  return request({
+    url: `/media/files/all?pageNo=${pageNo}&&pageSize=${pageSize}`,
+    method: 'post',
+    params: params
+  })
+}
+
+// 删除媒资信息
+const api_del_media = (fileId) => {
+  return request({
+    url: `/media/deleteFileById?fileId=${fileId}`,
+    method: 'delete'
+  })
+}
+
+// 修改审核相关
+const api_edit_media = (parmas) => {
+  return request({
+    url: `/media/auditFileById`,
+    method: 'post',
+    data: parmas
+  })
+}
+
+// 查询课程列表
+const api_get_course = (params = null, pageNo = 1, pageSize = 5) => {
+  return request({
+    url: `/content/course/adminList?pageNo=${pageNo}&&pageSize=${pageSize}`,
+    method: 'post',
+    params: params
+  })
+}
+
+// 修改课程相关信息
+const api_edit_course = (params) => {
+  return request({
+    url: `/content/course/updateCourseBase`,
+    method: 'post',
+    data: params
+  })
+}
+
+// 删除课程信息
+const api_del_course = (id) => {
+  return request({
+    url: `/content/course/deleteCourseById?id=${id}`,
+    method: 'delete'
+  })
+}
+
+// 级联查询课程类别
+const api_cate_type = () => {
+  return request({
+    url: '/content/course-category/tree-nodes',
+    method: 'get'
+  })
+}
+
 export {
   testGet,
   getCheckCode,
@@ -258,5 +318,12 @@ export {
   api_add_role,
   api_get_role,
   api_update_role,
-  api_del_role
+  api_del_role,
+  api_get_media,
+  api_del_media,
+  api_edit_media,
+  api_get_course,
+  api_edit_course,
+  api_del_course,
+  api_cate_type
 }

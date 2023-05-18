@@ -44,6 +44,10 @@ const props = defineProps({
     type: Function,
     require: true,
   },
+  pageSize: {
+    type: Number,
+    default: 10
+  }
 })
 
 const state = reactive({
@@ -58,7 +62,7 @@ const state = reactive({
     showSizeChanger: true,
     showQuickJumper: true,
     onShowSizeChange: (current, pageSize) => {
-      ;(state.pagination.pageSize = pageSize), (state.pagination.current = 1)
+      (state.pagination.pageSize = pageSize), (state.pagination.current = 1)
     },
   },
   searchText: '',

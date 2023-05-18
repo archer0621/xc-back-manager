@@ -39,13 +39,13 @@
     </a-row>
 
     <a-row>
-      <a-col :span="4">
+      <a-col :span="6">
         <a-card title="课程分类" :bordered="false" class="echart-card">
           <a-spin v-if="loading" size="large" tip="玩儿命加载中······"/>
           <my-echarts v-else :myOption="pieOption" :myStyle="pieStyle" />
         </a-card>
       </a-col>
-      <a-col :span="14">
+      <a-col :span="12">
         <a-card title="公司营收" :bordered="false" class="echart-card">
           <a-spin v-if="loading" size="large" tip="玩儿命加载中······"/>
           <my-echarts v-else :myOption="barOption" :myStyle="barStyle"/>
